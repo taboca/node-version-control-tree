@@ -3,6 +3,8 @@ var path = require("path"),
     url = require("url"),
     shell = require('shelljs');
 
+    const crypto = require('crypto');
+
 var traverse = {
 
   indexes : {},
@@ -45,18 +47,21 @@ var traverse = {
           }
 
           currentNode.tree.push(childNode);
-
           shell.cd(currDir);
           traverse.traverseDir(childNode);
           shell.cd('..');
         } else {
 
+          var currFile = path.join(currentNode.fullpath,file);
+
           var childNode = {
             'shortpath': file,
-            'fullpath': currDir,
+            'fullpath': currFile,
             'expands':false,
+            'sha1': null,
             'tree': null
           }
+
           currentNode.tree.push(childNode);
 
         }
