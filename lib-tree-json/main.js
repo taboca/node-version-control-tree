@@ -1,5 +1,4 @@
-var sys = require("sys"),
-    path = require("path"),
+var path = require("path"),
     fs = require("fs")
     url = require("url"),
     shell = require('shelljs');

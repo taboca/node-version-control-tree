@@ -1,14 +1,20 @@
-var sys = require("sys"),
-    path = require("path"),
+var path = require("path"),
     fs = require("fs")
     url = require("url"),
-    shell = require('shelljs'),
-    traverse = require('./lib-tree-json'),
-    http = require("http");
-
+    traverse = require('./lib-tree-json');
+    
 function init() {
+  console.log('Dumping working tree ' + process.argv[2] + ' as tree.json...')
   var parsedTree = traverse.init(process.argv[2]);
-  console.log(parsedTree);
+  var outFile = path.join(__dirname, 'tree.json')
+
+  var stream = fs.createWriteStream(outFile);
+  stream.once('open', function(fd) {
+    stream.write(parsedTree);
+    stream.end();
+  });
+
 }
+
 
 init();
