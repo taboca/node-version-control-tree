@@ -2,6 +2,8 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
+var traverse = require('./lib-tree-json');
+
 var app = express();
 
 var DIRECTORY_FILE = path.join(__dirname, 'tree.json');
@@ -23,6 +25,11 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.get('/api/tree/reload', function(req, res) {
+  treeTraverse();
+  res.redirect('/')
+});
+
 app.get('/api/tree', function(req, res) {
   fs.readFile(DIRECTORY_FILE, function(err, data) {
     if (err) {
@@ -36,3 +43,15 @@ app.get('/api/tree', function(req, res) {
 app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:' + app.get('port') + '/');
 });
+
+function treeTraverse() {
+  console.log('Dumping "working-tree" as tree.json...')
+  var parsedTree = traverse.init('working-tree');
+  var outFile = path.join(__dirname, 'tree.json')
+
+  var stream = fs.createWriteStream(outFile);
+  stream.once('open', function(fd) {
+    stream.write(parsedTree);
+    stream.end();
+  });
+}
