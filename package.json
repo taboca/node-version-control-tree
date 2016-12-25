@@ -1,0 +1,16 @@
+{
+  "name": "treeversioningdag",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "http-agent": "~0.1.2",
+    "shelljs": "~0.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marcio S Galli mgalli@mgalli.com",
+  "license": "MIT"
+}
