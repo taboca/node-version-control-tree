@@ -3,6 +3,7 @@ var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var traverse = require('./lib-tree-json');
+var traverseSha = require('./lib-tree-traverse-sha');
 
 var app = express();
 
@@ -26,7 +27,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/api/tree/reload', function(req, res) {
-  treeTraverse();
+  traverseSha.init();
   res.redirect('/')
 });
 
@@ -43,15 +44,3 @@ app.get('/api/tree', function(req, res) {
 app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:' + app.get('port') + '/');
 });
-
-function treeTraverse() {
-  console.log('Dumping "working-tree" as tree.json...')
-  var parsedTree = traverse.init('working-tree');
-  var outFile = path.join(__dirname, 'tree.json')
-
-  var stream = fs.createWriteStream(outFile);
-  stream.once('open', function(fd) {
-    stream.write(parsedTree);
-    stream.end();
-  });
-}
