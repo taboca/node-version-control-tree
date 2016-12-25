@@ -1,7 +1,6 @@
-# patch-commit-internals
+# A JavaScript Version Control System Implementation  
 
 This project is a NodeJS-based implementation of a very simple version control system, alike to GIT (ie. DAG, functional tree) aimed to maintain a version control data structure for local file system updates (tree and text file presence). 
-
 
 # Node-JS background projects
 
