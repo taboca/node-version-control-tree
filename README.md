@@ -2,6 +2,11 @@
 
 This project is a NodeJS-based implementation of a very simple version control system, alike to GIT (ie. DAG, functional tree) aimed to maintain a version control data structure for local file system updates (tree and text file presence). 
 
+## Running version a
+
+* a) node index.js working-tree (will generate tree.json)
+* b) node treeview.js (set browser to localhost:3000 to see a JSON tree of the working-tree)
+
 # Node-JS background projects
 
 * [Node-JS tree traversal to JSON](https://github.com/taboca/directory-to-json)

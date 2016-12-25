@@ -11,9 +11,9 @@ var traverse = {
 
     //console.log("Will traverse " + indexDirectory);
     this.indexes['root'] = {
-      'dir': path.join(__dirname,'..',indexDirectory),
-      'shortPath': indexDirectory,
-      'childs': new Array()
+      'fullpath': path.join(__dirname,'..',indexDirectory),
+      'shortpath': indexDirectory,
+      'tree': new Array()
     }
 
     shell.cd(path.join(__dirname,'..',indexDirectory));
@@ -26,7 +26,7 @@ var traverse = {
   traverseDir: function (currentNode) {
     //console.log('Current node child len='+currentNode.childs.length);
 
-    if(currentNode.childs.length==0)
+    if(currentNode.tree.length==0)
      {
       //console.log('Not populated, entering '+currentNode.shortPath)
       var totalDir = 0;
@@ -35,16 +35,16 @@ var traverse = {
         //console.log(shell.pwd());
         //console.log('Listed: ' + file);
         if (shell.test('-d', file)) {
-          var currDir = path.join(currentNode.dir,file);
+          var currDir = path.join(currentNode.fullpath,file);
           //console.log('Checking dir = ' + file);
           var childNode = {
-            'shortPath': file,
-            'dir': currDir,
+            'shortpath': file,
+            'fullpath': currDir,
             'expands':true,
-            'childs': new Array()
+            'tree': new Array()
           }
 
-          currentNode.childs.push(childNode);
+          currentNode.tree.push(childNode);
 
           shell.cd(currDir);
           traverse.traverseDir(childNode);
@@ -52,12 +52,12 @@ var traverse = {
         } else {
 
           var childNode = {
-            'shortPath': file,
-            'dir': currDir,
+            'shortpath': file,
+            'fullpath': currDir,
             'expands':false,
-            'childs': null
+            'tree': null
           }
-          currentNode.childs.push(childNode);
+          currentNode.tree.push(childNode);
 
         }
       });
