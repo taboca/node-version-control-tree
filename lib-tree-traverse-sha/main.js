@@ -4,9 +4,6 @@ var path = require("path"),
     url = require("url"),
     traverse = require('../lib-tree-json');
 
-var gInitial = null;
-var gQueue = new Array();
-
 var traverseSha = {
   stringTree : null,
   jsonTree   : null,
@@ -51,19 +48,19 @@ var traverseTree = {
   run: function (treeItem,l,cb) {
 
     let spacer = '';
-    if(!gInitial) gInitial = treeItem.shortpath;
+    if(!traverseTree.gInitial) traverseTree.gInitial = treeItem.shortpath;
     for(let k =0; k<l;k++) spacer+='\\_';
 
     if(treeItem.expands == false) {
       var shaData = 'pending';
       var currFile = path.join(treeItem.fullpath);
       let localTreeItem = treeItem;
-      gQueue.push(currFile);
+      traverseTree.gQueue.push(currFile);
       traverseTree.getFileSha(currFile).then(function (sha1) {
         localTreeItem.sha1 = sha1;
-        gQueue.pop();
-        console.log('___'+ gQueue.length)
-        if(gQueue.length==0) {
+        traverseTree.gQueue.pop();
+        console.log('___'+ traverseTree.gQueue.length)
+        if(traverseTree.gQueue.length==0) {
           cb('completesha');
         }
       });
@@ -75,7 +72,7 @@ var traverseTree = {
       }
     }
     console.log(spacer + treeItem.shortpath);
-    if(treeItem.shortpath == gInitial) {
+    if(treeItem.shortpath == traverseTree.gInitial) {
       cb('ended');
     }
   },
