@@ -4,6 +4,9 @@ var path = require("path"),
     url = require("url"),
     traverse = require('../lib-tree-json');
 
+// This will go through the tree, and waiting for asynchronous
+// operations which calculate sha1 for all files...
+// final JSON tree has sha1 attribute, for files..
 var traverseSha = {
   stringTree : null,
   jsonTree   : null,
