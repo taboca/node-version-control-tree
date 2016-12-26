@@ -26,9 +26,10 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.get('/api/tree/reload', function(req, res) {
-  traverseSha.init();
-  res.redirect('/')
+app.get('/command/tree/reload', function(req, res) {
+  traverseSha.init().then( function () {
+    res.redirect('/')
+  });
 });
 
 app.get('/api/tree', function(req, res) {

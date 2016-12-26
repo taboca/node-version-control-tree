@@ -17,7 +17,7 @@ var traverseSha = {
         traverseSha.stringTree = traverse.init('working-tree');
         traverseSha.jsonTree = JSON.parse(traverseSha.stringTree);
 
-        traverseTree(traverseSha.jsonTree.root, 0, function callback(tip) {
+        traverseTree.run(traverseSha.jsonTree.root, 0, function callback(tip) {
           // get the waiting pending elements queue
           // this callback remove each item
           // til final..
@@ -44,56 +44,59 @@ var traverseSha = {
   }
 }
 
-function getFileSha(filePath) {
-	return new Promise(function (good,bad) {
-		fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
-		    if (!err){
-					good(getSha(data));
-		    }else{
-		      bad(console.log(err));
-		    }
-		});
-	});
-}
+var traverseTree = {
+  gInitial : null,
+  gQueue   : new Array(),
 
-function getSha(mString) {
-		return crypto.createHash('sha1').update(mString).digest('hex');
-}
+  run: function (treeItem,l,cb) {
 
-function traverseTree(treeItem,l,cb) {
+    let spacer = '';
+    if(!gInitial) gInitial = treeItem.shortpath;
+    for(let k =0; k<l;k++) spacer+='\\_';
 
-  var spacer = '';
-  if(!gInitial) {
-    gInitial = treeItem.shortpath;
-  }
-  for(var k =0; k<l;k++) spacer+='\\_';
-
-  if(treeItem.expands == false) {
-    var shaData = 'pending';
-    var currFile = path.join(treeItem.fullpath);
-    let localTreeItem = treeItem;
-    gQueue.push(currFile);
-    getFileSha(currFile).then(function (sha1) {
-      localTreeItem.sha1 = sha1;
-      gQueue.pop();
-      console.log('___'+ gQueue.length)
-      if(gQueue.length==0) {
-        cb('completesha');
-      }
-    });
-  }
-  if(treeItem.tree) {
-    l++;
-    for(k in treeItem.tree) {
-        traverseTree(treeItem.tree[k],l, cb);
+    if(treeItem.expands == false) {
+      var shaData = 'pending';
+      var currFile = path.join(treeItem.fullpath);
+      let localTreeItem = treeItem;
+      gQueue.push(currFile);
+      traverseTree.getFileSha(currFile).then(function (sha1) {
+        localTreeItem.sha1 = sha1;
+        gQueue.pop();
+        console.log('___'+ gQueue.length)
+        if(gQueue.length==0) {
+          cb('completesha');
+        }
+      });
     }
+    if(treeItem.tree) {
+      l++;
+      for(k in treeItem.tree) {
+          traverseTree.run(treeItem.tree[k],l, cb);
+      }
+    }
+    console.log(spacer + treeItem.shortpath);
+    if(treeItem.shortpath == gInitial) {
+      cb('ended');
+    }
+  },
+  getFileSha: function(filePath) {
+  	return new Promise(function (good,bad) {
+  		fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
+  		    if (!err){
+  					good(traverseTree.getSha(data));
+  		    }else{
+  		      bad(console.log(err));
+  		    }
+  		});
+  	});
+  },
+  getSha: function (mString) {
+  		return crypto.createHash('sha1').update(mString).digest('hex');
   }
-  console.log(spacer + treeItem.shortpath);
-  if(treeItem.shortpath == gInitial) {
-    cb('ended');
-  }
+
 }
 
+// Not in use..
 function traversePrint(treeItem,l) {
   var spacer = '';
   for(var k =1; k<l;k++) spacer+='\\_';
