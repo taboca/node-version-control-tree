@@ -32,15 +32,18 @@ app.get('/api/tree/reload', function(req, res) {
 });
 
 app.get('/api/tree', function(req, res) {
+
   fs.readFile(DIRECTORY_FILE, function(err, data) {
     if (err) {
       console.error(err);
-      process.exit(1);
+      //process.exit(1);
     }
     res.json(JSON.parse(data));
   });
 });
 
-app.listen(app.get('port'), function() {
-  console.log('Server started: http://localhost:' + app.get('port') + '/');
+traverseSha.init().then(function success() {
+  app.listen(app.get('port'), function() {
+    console.log('Server started: http://localhost:' + app.get('port') + '/');
+  });
 });

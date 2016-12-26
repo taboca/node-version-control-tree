@@ -5,4 +5,6 @@ var path = require("path"),
     traverse = require('./lib-tree-json'),
     traverseSha = require('./lib-tree-traverse-sha');
 
-traverseSha.init();
+traverseSha.init().then(function success() {
+  console.log("Main done..")
+});
