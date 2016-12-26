@@ -28,19 +28,24 @@ var traverseSha = {
 
           if(traverseSha.doneTasks == 2) {
               console.log("Completed tasks..")
-              let stringTree = JSON.stringify(traverseSha.jsonTree);
-              let outFile = path.join(__dirname, '..', 'tree.json')
-              let stream = fs.createWriteStream(outFile);
-              stream.once('open', function(fd) {
-                //console.log("Writing: " + stringTree )
-                stream.write(stringTree);
-                stream.end();
-                traverseSha.doneTasks = 0;
-                success();
-              });
+              success(traverseSha.jsonTree);
           }
         });
     });
+  },
+  dumpFile: function () {
+    return new Promise(function (success, fail) {
+        let stringTree = JSON.stringify(traverseSha.jsonTree);
+        let outFile = path.join(__dirname, '..', 'tree.json')
+        let stream = fs.createWriteStream(outFile);
+        stream.once('open', function(fd) {
+          //console.log("Writing: " + stringTree )
+          stream.write(stringTree);
+          stream.end();
+          traverseSha.doneTasks = 0;
+          success();
+        });
+    })
   }
 }
 

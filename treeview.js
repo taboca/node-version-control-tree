@@ -3,7 +3,7 @@ var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var traverse = require('./lib-tree-json');
-var traverseSha = require('./lib-tree-traverse-sha');
+var traverseSha = require('./lib-tree-sha1-files');
 
 var app = express();
 
@@ -28,7 +28,10 @@ app.use(function(req, res, next) {
 
 app.get('/command/tree/reload', function(req, res) {
   traverseSha.init().then( function () {
-    res.redirect('/')
+    traverseSha.dumpFile().then(function ok2() {
+      res.redirect('/')
+
+    });
   });
 });
 
@@ -43,8 +46,10 @@ app.get('/api/tree', function(req, res) {
   });
 });
 
-traverseSha.init().then(function success() {
-  app.listen(app.get('port'), function() {
-    console.log('Server started: http://localhost:' + app.get('port') + '/');
+traverseSha.init().then(function ok1() {
+  traverseSha.dumpFile().then(function ok2() {
+    app.listen(app.get('port'), function() {
+      console.log('Server started: http://localhost:' + app.get('port') + '/');
+    });
   });
 });
