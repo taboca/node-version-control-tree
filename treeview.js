@@ -2,8 +2,8 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
-var traverse = require('./lib-tree-json');
 var traverseSha = require('./lib-tree-sha1-files');
+var traverseTree = require('./lib-tree-sha-tree');;
 
 var app = express();
 
@@ -27,12 +27,16 @@ app.use(function(req, res, next) {
 });
 
 app.get('/command/tree/reload', function(req, res) {
-  traverseSha.init().then( function () {
-    traverseSha.dumpFile().then(function ok2() {
-      res.redirect('/')
 
-    });
+  traverseSha.init().then(function success() {
+      console.log("Main done..")
+      console.log('Walking through working tree "working-tree" for sha1 tree building...');
+      traverseTree.run(traverseSha.jsonTree.root, 0);
+      traverseSha.dumpFile().then(function ok(){
+        res.redirect('/')
+      });
   });
+
 });
 
 app.get('/api/tree', function(req, res) {

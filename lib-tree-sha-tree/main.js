@@ -5,22 +5,6 @@ var path = require("path"),
     traverse = require('../lib-tree-json'),
     traverseFileSha = require('../lib-tree-sha1-files');
 
-// This will go through the tree, and waiting for asynchronous
-// operations which calculate sha1 for all files...
-// final JSON tree has sha1 attribute, for files..
-var completeShaTree = {
-  stringTree : null,
-  jsonTree   : null,
-  doneTasks  : 0,
-  init: function () {
-      traverseFileSha.init().then(function success() {
-          console.log("Main done..")
-          console.log('Walking through working tree "working-tree" for sha1 tree building...');
-          traverseTree.run(traverseFileSha.jsonTree.root, 0);
-      });
-  }
-}
-
 var traverseTree = {
   gInitial : null,
   gQueue   : new Array(),
@@ -39,6 +23,7 @@ var traverseTree = {
             contentTree += elect+'/'+shaLeaf+';'
         }
         shaWhole = traverseTree.getSha(contentTree);
+        treeItem.treeContent = contentTree;
         treeItem.sha1 = shaWhole;
       }
     }
@@ -51,4 +36,4 @@ var traverseTree = {
 
 }
 
-module.exports = completeShaTree;
+module.exports = traverseTree;

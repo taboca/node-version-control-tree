@@ -15,6 +15,7 @@ var Directory = React.createClass({
         <div className="directoryFolder">
           <h2 className="directoryName">
             <span dangerouslySetInnerHTML={this.rawMarkup()} />
+            <span>{this.props.signature}</span>
           </h2>
           <DirectoryItem data={this.props.tree} />
         </div>
@@ -24,6 +25,7 @@ var Directory = React.createClass({
         <div className="directoryFolder">
           <h2 className="directoryName">
             <span dangerouslySetInnerHTML={this.rawMarkup()} />
+            <span>{this.props.signature}</span>
           </h2>
         </div>
       );
@@ -65,7 +67,7 @@ var DirectoryItem = React.createClass({
   render: function() {
     var directoryNodes = this.props.data.map(function(nodeItem) {
       return (
-        <Directory tree={nodeItem.tree}>
+        <Directory tree={nodeItem.tree} signature={nodeItem.sha1}>
           {nodeItem.shortpath}
         </Directory>
       );
