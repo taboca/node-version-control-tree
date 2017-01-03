@@ -40,7 +40,7 @@ var DirectoryBox = React.createClass({
       dataType: 'json',
       cache: false,
       success: function(data) {
-        this.setState({data: data.root.tree});
+        this.setState({data: data.root.tree, rootMainSignature: data.root.sha1});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -57,7 +57,7 @@ var DirectoryBox = React.createClass({
   render: function() {
     return (
       <div className="DirectoryBox">
-        <DirectoryItem data={this.state.data} />
+        <DirectoryItem data={this.state.data} signature={this.state.rootMainSignature}/>
       </div>
     );
   }
@@ -74,6 +74,7 @@ var DirectoryItem = React.createClass({
     });
     return (
       <div className="DirectoryItem">
+        {this.props.signature}
         {directoryNodes}
       </div>
     );

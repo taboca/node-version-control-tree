@@ -10,4 +10,5 @@ traverseFileSha.init().then(function success() {
     console.log('Walking through working tree "working-tree" for sha1 tree building...');
     traverseTree.run(traverseFileSha.jsonTree.root, 0);
     traverseFileSha.dumpFile().then(function ok(){});
+    console.log("Dumped tree.json")
 });
