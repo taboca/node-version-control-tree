@@ -6,10 +6,8 @@ var path = require("path"),
     traverseFileSha = require('../lib-tree-sha1-files');
 
 var traverseTree = {
-  gInitial : null,
-  gQueue   : new Array(),
 
-  run: function (treeItem,l,cb) {
+  run: function (treeItem,l) {
     var shaWhole = '';
     if(treeItem.expands == false) {
        shaWhole = (treeItem.sha1);
@@ -19,7 +17,7 @@ var traverseTree = {
         l++;
         for(k in treeItem.tree) {
             let elect = treeItem.tree[k].shortpath;
-            let shaLeaf = traverseTree.run(treeItem.tree[k],l, cb);
+            let shaLeaf = traverseTree.run(treeItem.tree[k],l);
             contentTree += elect+'/'+shaLeaf+';'
         }
         shaWhole = traverseTree.getSha(contentTree);

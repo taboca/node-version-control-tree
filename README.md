@@ -6,6 +6,7 @@ This project is a NodeJS-based implementation of a very simple version control s
 
 * a) node index.js working-tree (will generate tree.json)
 * b) node treeview.js (set browser to localhost:3000 to see a JSON tree of the working-tree)
+* c) node object-index to create the index (make sure you have ./index directory clean)
 
 # Node-JS background projects
 
