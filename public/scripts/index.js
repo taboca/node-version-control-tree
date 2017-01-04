@@ -22,7 +22,8 @@ var HistoryBox = React.createClass({
   render: function() {
     return (
       <div className="HistoryBox">
-        <HistoryItems data={this.state.history} />
+        <h2>Atual: {this.state.head}</h2>
+        <HistoryItems data={this.state.history} head={this.state.head}/>
       </div>
     );
   }
@@ -30,13 +31,18 @@ var HistoryBox = React.createClass({
 
 var HistoryItems = React.createClass({
   render: function() {
+    var headItem = this.props.head;
+
+    this.props.data.reverse();
+    
     var nodes = this.props.data.map(function(nodeItem) {
+
       if(nodeItem!=null) {
-        return (
-          <HistoryItem >
-            {nodeItem}
-          </HistoryItem>
-        );
+          return (
+            <HistoryItem head={headItem} node={nodeItem}>
+              {nodeItem}
+            </HistoryItem>
+          );
       }
     });
     return (
@@ -54,11 +60,20 @@ var HistoryItem = React.createClass({
     return { __html: rawMarkup };
   },
   render: function() {
-      return (
-          <h2 className="historyItem">
-            <span dangerouslySetInnerHTML={this.rawMarkup()} />
-          </h2>
-      );
+      if (this.props.head == this.props.node ) {
+        return (
+            <h2 className="historyItemHightlight" >
+              <span dangerouslySetInnerHTML={this.rawMarkup()} />
+            </h2>
+        );
+
+      } else {
+        return (
+            <h2 className="historyItem">
+              <span dangerouslySetInnerHTML={this.rawMarkup()} />
+            </h2>
+        );
+      }
   }
 });
 

@@ -11,3 +11,8 @@
 h2 {
   font-size:75%;
 }
+
+.historyItemHightlight {
+  color:blue;
+  font-weight:bold;
+}
