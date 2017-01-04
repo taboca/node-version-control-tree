@@ -40,7 +40,7 @@ let traverseTree = {
       let currFile = path.join(treeItem.fullpath);
       let indexKeyDirectoryProposal = path.join(__dirname, '..', 'index', treeItem.sha1)
 
-      if (!fs.existsSync(indexKeyDirectoryProposal)){
+      if (!fs.existsSync(indexKeyDirectoryProposal)) {
 
           fs.mkdirSync(indexKeyDirectoryProposal);
           let metaJSON = {
@@ -66,6 +66,8 @@ let traverseTree = {
             }
             good();
           });
+      } else {
+        good(); // if no writing need, then fine, we pass..
       }
   	});
   }
