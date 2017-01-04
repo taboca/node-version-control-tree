@@ -4,13 +4,13 @@ This project is a NodeJS-based implementation of a very simple version control s
 
 ## Running version a
 
-* a) node index.js – will generate tree.json for the ./working-tree directory, and its files; the tree.json is the result of traversing all the files, and subdirectories within ./working-tree and generating sha1 for directories and files;
+* a) node index-sha1.js – will generate tree.json for the ./working-tree directory, and its files; the tree.json is the result of traversing all the files, and subdirectories within ./working-tree and generating sha1 for directories and files;
 
-* b) node treeview.js – set browser to localhost:3000 to see a JSON tree of the working-tree, plus also provides reload link that generates tree.json again;
+* b) node index-webview-sha1.js – set browser to localhost:3000 to see a JSON tree of the working-tree, plus also provides reload link that generates tree.json again;
 
-* c) node object-index.js – to index all objects, such as subdirectories and files, within the ./index filesystem database; if you remove all contests from the ./index/* then it means it's like a init again, you lost your objects of past while you may not lose the ability to make objects from the current working tree;
+* c) node index-objects.js – to index all objects, such as subdirectories and files, within the ./index filesystem database; if you remove all contests from the ./index/* then it means it's like a init again, you lost your objects of past while you may not lose the ability to make objects from the current working tree;
 
-
+* d) node
 
 # Node-JS background projects
 
