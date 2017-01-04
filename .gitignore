@@ -1,2 +1,4 @@
 node_modules
 tree.json
+./index/*
+./index-commits/*

@@ -12,6 +12,24 @@ let commitService = {
 	commitDateString : "",
   parentCommit     : null,
 
+  init: function () {
+    return new Promise(function (good,bad) {
+      let containerDir = path.join(__dirname, '..', 'index-commits');
+      if (!fs.existsSync(containerDir)) {
+  				fs.mkdirSync(containerDir);
+      }
+
+      let metaHeadFile = path.join(__dirname, '..', 'index-commits', 'head.json');
+  		let stream = fs.createWriteStream(metaHeadFile);
+  		stream.once('open', function(fd) {
+        let metaHeadJSON = '{"head":null,"index":0,"commits":[]}';
+  			stream.write(metaHeadJSON);
+  			stream.end();
+  			good();
+  		});
+    });
+  },
+
   commitIndex: function(treeItem) {
   	return new Promise(function (good,bad) {
 
@@ -59,11 +77,16 @@ let commitService = {
   },
 	writeCommitDirectory(promiseCallBack) {
 
-		let indexKeyDirectoryProposal = path.join(__dirname, '..', 'index-commits', commitService.thisCommit);
+    let container = path.join(__dirname, '..', 'index-commits', 'commits');
+    if (!fs.existsSync(container)) {
+				fs.mkdirSync(container);
+    }
+
+		let indexKeyDirectoryProposal = path.join(__dirname, '..', 'index-commits', 'commits',  commitService.thisCommit);
 		if (!fs.existsSync(indexKeyDirectoryProposal)) {
 				fs.mkdirSync(indexKeyDirectoryProposal);
 
-				let metaFile = path.join(__dirname, '..', 'index-commits', commitService.thisCommit, 'meta.json');
+				let metaFile = path.join(__dirname, '..', 'index-commits', 'commits', commitService.thisCommit, 'meta.json');
 				let stream = fs.createWriteStream(metaFile);
 				stream.once('open', function(fd) {
 					//console.log("Writing: " + stringTree )

@@ -67,7 +67,6 @@ var HistoryItem = React.createClass({
               <a href={`/api/commit/${this.props.node}`}><span dangerouslySetInnerHTML={this.rawMarkup()} /></a>
             </h2>
         );
-
       } else {
         return (
             <h2 className="historyItem">
