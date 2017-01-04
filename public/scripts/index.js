@@ -34,7 +34,7 @@ var HistoryItems = React.createClass({
     var headItem = this.props.head;
 
     this.props.data.reverse();
-    
+
     var nodes = this.props.data.map(function(nodeItem) {
 
       if(nodeItem!=null) {
@@ -61,9 +61,10 @@ var HistoryItem = React.createClass({
   },
   render: function() {
       if (this.props.head == this.props.node ) {
+        var nodeValue = this.props.node;
         return (
             <h2 className="historyItemHightlight" >
-              <span dangerouslySetInnerHTML={this.rawMarkup()} />
+              <a href={`/api/commit/${this.props.node}`}><span dangerouslySetInnerHTML={this.rawMarkup()} /></a>
             </h2>
         );
 
