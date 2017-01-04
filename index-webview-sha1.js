@@ -8,6 +8,7 @@ var traverseTree = require('./lib-tree-20-tree-sha1');;
 var app = express();
 
 var DIRECTORY_FILE = path.join(__dirname, 'tree.json');
+var COMMITS_HISTORY = path.join(__dirname, 'index-commits', 'head.json');
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -40,7 +41,6 @@ app.get('/command/tree/reload', function(req, res) {
 });
 
 app.get('/api/tree', function(req, res) {
-
   fs.readFile(DIRECTORY_FILE, function(err, data) {
     if (err) {
       console.error(err);
@@ -49,6 +49,17 @@ app.get('/api/tree', function(req, res) {
     res.json(JSON.parse(data));
   });
 });
+
+app.get('/api/history', function(req, res) {
+  fs.readFile(COMMITS_HISTORY, function(err, data) {
+    if (err) {
+      console.error(err);
+      //process.exit(1);
+    }
+    res.json(JSON.parse(data));
+  });
+});
+
 
 traverseSha.init().then(function ok1() {
   traverseSha.dumpFile().then(function ok2() {

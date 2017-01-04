@@ -1,3 +1,68 @@
+var HistoryBox = React.createClass({
+  loadTreeJSON: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({history: data.commits, head: data.head});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  getInitialState: function() {
+    return {history: [], head: null};
+  },
+  componentDidMount: function() {
+    this.loadTreeJSON();
+    setInterval(this.loadTreeJSON, this.props.pollInterval);
+  },
+  render: function() {
+    return (
+      <div className="HistoryBox">
+        <HistoryItems data={this.state.history} />
+      </div>
+    );
+  }
+});
+
+var HistoryItems = React.createClass({
+  render: function() {
+    var nodes = this.props.data.map(function(nodeItem) {
+      if(nodeItem!=null) {
+        return (
+          <HistoryItem >
+            {nodeItem}
+          </HistoryItem>
+        );
+      }
+    });
+    return (
+      <div className="HistoryItems">
+        {nodes}
+      </div>
+    );
+  }
+});
+
+var HistoryItem = React.createClass({
+  rawMarkup: function() {
+    var md = new Remarkable();
+    var rawMarkup = md.render(this.props.children.toString());
+    return { __html: rawMarkup };
+  },
+  render: function() {
+      return (
+          <h2 className="historyItem">
+            <span dangerouslySetInnerHTML={this.rawMarkup()} />
+          </h2>
+      );
+  }
+});
+
+
 /**
 
  */
@@ -81,7 +146,14 @@ var DirectoryItem = React.createClass({
   }
 });
 
+
+ReactDOM.render(
+  <HistoryBox url="/api/history" pollInterval={2000} />,
+  document.getElementById('content-history')
+);
+
 ReactDOM.render(
   <DirectoryBox url="/api/tree" pollInterval={2000} />,
   document.getElementById('content')
+
 );
