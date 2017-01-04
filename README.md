@@ -10,7 +10,7 @@ This project is a NodeJS-based implementation of a very simple version control s
 
 * c) node index-objects.js – to index all objects, such as subdirectories and files, within the ./index filesystem database; if you remove all contests from the ./index/* then it means it's like a init again, you lost your objects of past while you may not lose the ability to make objects from the current working tree;
 
-* d) node
+* d) node index-commit.js – will make a commit, using the current state of main tree, using current date, parent commit (or null), current commit the sha1 of the ./working-tree root state; 
 
 # Node-JS background projects
 

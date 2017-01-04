@@ -2,8 +2,8 @@ var fs = require('fs');
 var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
-var traverseSha = require('./lib-tree-sha1-files');
-var traverseTree = require('./lib-tree-sha-tree');;
+var traverseSha = require('./lib-tree-10-files-sha1');
+var traverseTree = require('./lib-tree-20-tree-sha1');;
 
 var app = express();
 
