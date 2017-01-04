@@ -2,15 +2,19 @@
 
 This project is a NodeJS-based implementation of a very simple version control system, alike to GIT (ie. DAG, functional tree) aimed to maintain a version control data structure for local file system updates (tree and text file presence).
 
-## Running version a
+## Running and learning
 
 * a) node index-sha1.js – will generate tree.json for the ./working-tree directory, and its files; the tree.json is the result of traversing all the files, and subdirectories within ./working-tree and generating sha1 for directories and files;
 
 * b) node index-webview-sha1.js – set browser to localhost:3000 to see a JSON tree of the working-tree, plus also provides reload link that generates tree.json again;
 
-* c) node index-objects.js – to index all objects, such as subdirectories and files, within the ./index filesystem database; if you remove all contests from the ./index/* then it means it's like a init again, you lost your objects of past while you may not lose the ability to make objects from the current working tree;
+* c) rm -rf ./index/* 
+ 
+* c.1) rm -ef ./index-commits/* 
 
-* d) node index-commit.js – will make a commit, using the current state of main tree, using current date, parent commit (or null), current commit the sha1 of the ./working-tree root state; 
+* d) node index-objects.js – to index all objects, such as subdirectories and files, within the ./index filesystem database; if you remove all contests from the ./index/* then it means it's like a init again, you lost your objects of past while you may not lose the ability to make objects from the current working tree;
+
+* e) node index-commit.js – will make a commit, using the current state of main tree, using current date, parent commit (or null), current commit the sha1 of the ./working-tree root state; 
 
 # Node-JS background projects
 
