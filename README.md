@@ -8,7 +8,9 @@ This project is a NodeJS-based implementation of a very simple version control s
 
 * b) node treeview.js – set browser to localhost:3000 to see a JSON tree of the working-tree, plus also provides reload link that generates tree.json again;
 
-* c) node object-index.js – to index all objects, such as subdirectories and files, within the ./index filesystem database;
+* c) node object-index.js – to index all objects, such as subdirectories and files, within the ./index filesystem database; if you remove all contests from the ./index/* then it means it's like a init again, you lost your objects of past while you may not lose the ability to make objects from the current working tree;
+
+
 
 # Node-JS background projects
 
