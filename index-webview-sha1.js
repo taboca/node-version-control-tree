@@ -8,7 +8,7 @@ var traverseTree = require('./lib-tree-20-tree-sha1');;
 var app = express();
 
 var DIRECTORY_FILE = path.join(__dirname, 'tree.json');
-var COMMITS_HISTORY = path.join(__dirname, 'index-commits', 'head.json');
+var COMMITS_HISTORY = path.join(__dirname, 'db_commits_index', 'head.json');
 
 app.set('port', (process.env.PORT || 3000));
 

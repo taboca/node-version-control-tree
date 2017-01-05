@@ -8,7 +8,7 @@ This project is a NodeJS-based implementation of a very simple version control s
 
 * b) rm -rf ./index/* 
  
-* b.1) rm -ef ./index-commits/* 
+* b.1) rm -ef ./db_commits_index/* 
 
 * c) node index-webview-sha1.js – set browser to localhost:3000 to see a JSON tree of the working-tree, plus also provides reload link that generates tree.json again;
 

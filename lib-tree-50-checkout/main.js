@@ -20,7 +20,7 @@ let checkoutService = {
       checkoutService.commitSha1 = commitSha1;
 
 			// Read parent last commit from the index-commit db
-			let commitHeadInformation = path.join(__dirname, '..', 'index-commits', 'commits', commitSha1, 'meta.json')
+			let commitHeadInformation = path.join(__dirname, '..', 'db_commits_index', 'commits', commitSha1, 'meta.json')
 
 			fs.readFile(commitHeadInformation, {encoding: 'utf-8'}, function(err,data){
   		    if (!err){
@@ -52,7 +52,7 @@ let checkoutService = {
   dig: function (element, objectSHA1) {
 
 			// Read parent last commit from the index-commit db
-  		let commitHeadInformation = path.join(__dirname, '..', 'index', objectSHA1, 'meta.json')
+  		let commitHeadInformation = path.join(__dirname, '..', 'db_objects_index', objectSHA1, 'meta.json')
 			fs.readFile(commitHeadInformation, {encoding: 'utf-8'}, function(err,data){
   		    if (!err){
             objectEnvelope = JSON.parse(data);
@@ -107,11 +107,11 @@ let checkoutService = {
 
     checkoutService.openTree(checkoutService.commitTree);
 
-		let indexKeyDirectoryProposal = path.join(__dirname, '..', 'index-commits', 'commits', commitService.thisCommit);
+		let indexKeyDirectoryProposal = path.join(__dirname, '..', 'db_commits_index', 'commits', commitService.thisCommit);
 		if (!fs.existsSync(indexKeyDirectoryProposal)) {
 				fs.mkdirSync(indexKeyDirectoryProposal);
 
-				let metaFile = path.join(__dirname, '..', 'index-commits', 'commits', commitService.thisCommit, 'meta.json');
+				let metaFile = path.join(__dirname, '..', 'db_commits_index', 'commits', commitService.thisCommit, 'meta.json');
 				let stream = fs.createWriteStream(metaFile);
 				stream.once('open', function(fd) {
 					//console.log("Writing: " + stringTree )

@@ -14,12 +14,12 @@ let commitService = {
 
   init: function () {
     return new Promise(function (good,bad) {
-      let containerDir = path.join(__dirname, '..', 'index-commits');
+      let containerDir = path.join(__dirname, '..', 'db_commits_index');
       if (!fs.existsSync(containerDir)) {
   				fs.mkdirSync(containerDir);
       }
 
-      let metaHeadFile = path.join(__dirname, '..', 'index-commits', 'head.json');
+      let metaHeadFile = path.join(__dirname, '..', 'db_commits_index', 'head.json');
   		let stream = fs.createWriteStream(metaHeadFile);
   		stream.once('open', function(fd) {
         let metaHeadJSON = '{"head":null,"index":0,"commits":[]}';
@@ -34,7 +34,7 @@ let commitService = {
   	return new Promise(function (good,bad) {
 
 			// Read parent last commit from the index-commit db
-			let commitHeadInformation = path.join(__dirname, '..', 'index-commits', 'head.json')
+			let commitHeadInformation = path.join(__dirname, '..', 'db_commits_index', 'head.json')
 
 			fs.readFile(commitHeadInformation, {encoding: 'utf-8'}, function(err,data){
   		    if (!err){
@@ -48,16 +48,16 @@ let commitService = {
 						console.log('Generating commit for ' + fullCommitString + '==>' + commitService.thisCommit);
 
 						if(commitService.thisCommit in commitService.headData.commits) {
-							console.log('Commit ' + commitService.thisCommit + ' already exists in ./index-commits database.')
+							console.log('Commit ' + commitService.thisCommit + ' already exists in ./db_commits_index database.')
 							good();
 						} else {
-								console.log("Writing commit=" + commitService.thisCommit + ' to the ./index-commits database..')
+								console.log("Writing commit=" + commitService.thisCommit + ' to the ./db_commits_index database..')
 
 								commitService.headData.index++;
 								commitService.headData.commits.push(commitService.thisCommit);
 								commitService.headData.head = commitService.thisCommit;
 
-								let metaFile = path.join(__dirname, '..', 'index-commits', 'head.json')
+								let metaFile = path.join(__dirname, '..', 'db_commits_index', 'head.json')
 			          let stream = fs.createWriteStream(metaFile);
 			          stream.once('open', function(fd) {
 			            //console.log("Writing: " + stringTree )
@@ -77,16 +77,16 @@ let commitService = {
   },
 	writeCommitDirectory(promiseCallBack) {
 
-    let container = path.join(__dirname, '..', 'index-commits', 'commits');
+    let container = path.join(__dirname, '..', 'db_commits_index', 'commits');
     if (!fs.existsSync(container)) {
 				fs.mkdirSync(container);
     }
 
-		let indexKeyDirectoryProposal = path.join(__dirname, '..', 'index-commits', 'commits',  commitService.thisCommit);
+		let indexKeyDirectoryProposal = path.join(__dirname, '..', 'db_commits_index', 'commits',  commitService.thisCommit);
 		if (!fs.existsSync(indexKeyDirectoryProposal)) {
 				fs.mkdirSync(indexKeyDirectoryProposal);
 
-				let metaFile = path.join(__dirname, '..', 'index-commits', 'commits', commitService.thisCommit, 'meta.json');
+				let metaFile = path.join(__dirname, '..', 'db_commits_index', 'commits', commitService.thisCommit, 'meta.json');
 				let stream = fs.createWriteStream(metaFile);
 				stream.once('open', function(fd) {
 					//console.log("Writing: " + stringTree )

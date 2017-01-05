@@ -38,7 +38,7 @@ let traverseTree = {
   	return new Promise(function (good,bad) {
 
       let currFile = path.join(treeItem.fullpath);
-      let indexKeyDirectoryProposal = path.join(__dirname, '..', 'index', treeItem.sha1)
+      let indexKeyDirectoryProposal = path.join(__dirname, '..', 'db_objects_index', treeItem.sha1)
 
       if (!fs.existsSync(indexKeyDirectoryProposal)) {
 
@@ -53,7 +53,7 @@ let traverseTree = {
             metaJSON.treeContent = treeItem.treeContent;
           }
           let stringTree = JSON.stringify(metaJSON);
-          let metaFile = path.join(__dirname, '..', 'index', treeItem.sha1, 'meta.json');
+          let metaFile = path.join(__dirname, '..', 'db_objects_index', treeItem.sha1, 'meta.json');
           let stream = fs.createWriteStream(metaFile);
           stream.once('open', function(fd) {
             //console.log("Writing: " + stringTree )
@@ -61,7 +61,7 @@ let traverseTree = {
             stream.end();
             if(treeItem.expands == false) {
               let blobIn = treeItem.fullpath;
-              let blobFile = path.join(__dirname, '..', 'index', treeItem.sha1, 'blob');
+              let blobFile = path.join(__dirname, '..', 'db_objects_index', treeItem.sha1, 'blob');
               fs.createReadStream(blobIn).pipe(fs.createWriteStream(blobFile));
             }
             good();
