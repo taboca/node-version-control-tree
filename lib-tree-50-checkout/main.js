@@ -1,3 +1,9 @@
+/*
+  This will lookout the tree and down within it,
+  for all subtree and childs,
+  via looking first commit sha1, pull tree, then lookups in objects db
+  */
+  
 var path = require("path"),
     fs = require("fs"),
     crypto = require('crypto'),

@@ -1,3 +1,8 @@
+/*
+  This will put main tree objects as commits, alongside additional commit info, as sha1 indexed,
+  in the db_commits_index..
+*/
+
 var path = require("path"),
     fs = require("fs"),
     crypto = require('crypto'),

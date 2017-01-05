@@ -1,3 +1,7 @@
+/*
+  This will put sha1 objects (files and trees) in the objects index db
+*/
+
 var path = require("path"),
     fs = require("fs"),
     crypto = require('crypto'),

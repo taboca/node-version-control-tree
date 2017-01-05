@@ -1,3 +1,10 @@
+/*
+
+  This will build use the lib-tree-00-json to build the JSON tree, then
+   it will populate the sha1 for all child files..
+    
+*/
+
 var path = require("path"),
     fs = require("fs"),
     crypto = require('crypto'),

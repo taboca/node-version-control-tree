@@ -1,3 +1,9 @@
+/* 
+
+   This will traverse the directory and build a tree-based JSON structure
+
+*/
+
 var path = require("path"),
     fs = require("fs")
     url = require("url"),
