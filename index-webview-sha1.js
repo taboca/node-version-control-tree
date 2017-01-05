@@ -3,7 +3,8 @@ var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var traverseSha = require('./lib-tree-10-files-sha1');
-var traverseTree = require('./lib-tree-20-tree-sha1');;
+var traverseTree = require('./lib-tree-20-tree-sha1');
+var checkout = require('./lib-tree-50-checkout');
 
 var app = express();
 
@@ -13,6 +14,7 @@ var COMMITS_HISTORY = path.join(__dirname, 'db_commits_index', 'head.json');
 app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, 'public')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -25,6 +27,10 @@ app.use(function(req, res, next) {
     // Disable caching so we'll always get the latest comments.
     res.setHeader('Cache-Control', 'no-cache');
     next();
+});
+
+app.get('/viewcommit/*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
 
 app.get('/command/tree/reload', function(req, res) {
@@ -60,6 +66,19 @@ app.get('/api/history', function(req, res) {
   });
 });
 
+app.get('/api/commit/:commitId', function(req, res) {
+  fs.readFile(COMMITS_HISTORY, function(err, data) {
+    if (err) {
+      console.error(err);
+      //process.exit(1);
+    }
+    var commitKey = req.params.commitId;
+
+    checkout.init(commitKey).then(function success(tree) {
+      res.json(tree);
+    });
+  });
+});
 
 traverseSha.init().then(function ok1() {
   traverseSha.dumpFile().then(function ok2() {

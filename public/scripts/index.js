@@ -1,14 +1,18 @@
+var { Router, Route, IndexRoute, hashHistory, IndexLink, Link } = ReactRouter
+
 var HistoryBox = React.createClass({
+  url          : '/api/history',
+  pollInterval : 2000,
   loadTreeJSON: function() {
     $.ajax({
-      url: this.props.url,
+      url: this.url,
       dataType: 'json',
       cache: false,
       success: function(data) {
         this.setState({history: data.commits, head: data.head});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error(this.url, status, err.toString());
       }.bind(this)
     });
   },
@@ -17,7 +21,7 @@ var HistoryBox = React.createClass({
   },
   componentDidMount: function() {
     this.loadTreeJSON();
-    setInterval(this.loadTreeJSON, this.props.pollInterval);
+    setInterval(this.loadTreeJSON, this.pollInterval);
   },
   render: function() {
     return (
@@ -64,13 +68,13 @@ var HistoryItem = React.createClass({
         var nodeValue = this.props.node;
         return (
             <h2 className="historyItemHightlight" >
-              <a href={`/api/commit/${this.props.node}`}><span dangerouslySetInnerHTML={this.rawMarkup()} /></a>
+              <Link to={`/viewcommit/${this.props.node}`}><span dangerouslySetInnerHTML={this.rawMarkup()} /></Link>
             </h2>
         );
       } else {
         return (
             <h2 className="historyItem">
-              <span dangerouslySetInnerHTML={this.rawMarkup()} />
+             <Link to={`/viewcommit/${this.props.node}`}><span dangerouslySetInnerHTML={this.rawMarkup()} /></Link>
             </h2>
         );
       }
@@ -114,16 +118,23 @@ var Directory = React.createClass({
 });
 
 var DirectoryBox = React.createClass({
+  url          : '/api/tree',
+  pollInterval : 2000,
   loadTreeJSON: function() {
+
+    if(this.props.params.commitId) {
+      this.url = '/api/commit/'+this.props.params.commitId;
+    }
+
     $.ajax({
-      url: this.props.url,
+      url: this.url,
       dataType: 'json',
       cache: false,
       success: function(data) {
         this.setState({data: data.root.tree, rootMainSignature: data.root.sha1});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error(this.url, status, err.toString());
       }.bind(this)
     });
   },
@@ -132,7 +143,7 @@ var DirectoryBox = React.createClass({
   },
   componentDidMount: function() {
     this.loadTreeJSON();
-    setInterval(this.loadTreeJSON, this.props.pollInterval);
+    setInterval(this.loadTreeJSON, this.pollInterval);
   },
   render: function() {
     return (
@@ -162,13 +173,18 @@ var DirectoryItem = React.createClass({
 });
 
 
-ReactDOM.render(
-  <HistoryBox url="/api/history" pollInterval={2000} />,
-  document.getElementById('content-history')
-);
+ReactDOM.render((
+  <Router history={hashHistory}>
+    <Route path="/" component={HistoryBox}>
+    </Route>
+  </Router>
+), document.getElementById('content-history'));
 
-ReactDOM.render(
-  <DirectoryBox url="/api/tree" pollInterval={2000} />,
-  document.getElementById('content')
-
-);
+ReactDOM.render((
+  <Router history={hashHistory}>
+    <Route path="/" component={DirectoryBox}>
+      <Route path="viewcommit/:commitId" component={DirectoryBox}>
+      </Route>
+    </Route>
+  </Router>
+), document.getElementById('content'));
