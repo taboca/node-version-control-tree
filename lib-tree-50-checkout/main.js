@@ -33,9 +33,10 @@ let checkoutService = {
             checkoutService.promisedCallback = good;
             let element = {
                 "fullpath":null,
-                "shortpath":null,
+                "shortpath":"working-tree",
+                "sha1": checkoutService.commitTree,
                 "tree": null,
-                "expands": false
+                "expands": true
             }
             checkoutService.tree = {"root":element}
             checkoutService.qDone.push(checkoutService.commitTree);
@@ -56,35 +57,37 @@ let checkoutService = {
   		    if (!err){
             objectEnvelope = JSON.parse(data);
 
+            console.log("==>" , objectSHA1 ,"==>", objectEnvelope);
+
             if(objectEnvelope.hasOwnProperty('type')) {
 
               if(objectEnvelope.type=='tree') {
-
-                console.log(objectEnvelope);
 
                 element.expands = true;
                 element.tree = new Array();
 
                 strList = objectEnvelope.treeContent.split(';');
+
                 for(let i=0;i<strList.length-1;i++) {
 
                   let currItem = strList[i];
                   let splitItem = currItem.split('/');
                   let elementTreeChild = {
-                      "fullpath":null,
-                      "shortpath":splitItem[0],
-                      "tree": null,
-                      "expands": false
+                      "fullpath"  : null,
+                      "shortpath" : splitItem[0],
+                      "expands"   : false,
+                      "sha1"      : splitItem[1],
+                      "tree"      : null
                   }
-                  console.log("Will push " + splitItem[1])
-                  let el = element.tree.push(elementTreeChild);
+                  console.log("==>" , objectSHA1 ,"pushing ==>", splitItem[1]);
+
+                  element.tree.push(elementTreeChild);
                   checkoutService.qDone.push(splitItem[1]);
-                  checkoutService.dig(el,splitItem[1]);
+                  checkoutService.dig(elementTreeChild,splitItem[1]);
                 }
 
-
               } else {
-
+                console.log("This is file...")
               }
 
             }
