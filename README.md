@@ -2,6 +2,8 @@
 
 This project is a NodeJS-based implementation of a very simple version control system, alike to GIT (ie. DAG, functional tree) aimed to maintain a version control data structure for local file system updates (tree and text file presence).
 
+![Youtube](https://www.youtube.com/watch?v=E6pbkPYihxg)
+
 ## Running and learning
 
 * a) node index-sha1.js – will generate tree.json for the ./working-tree directory, and its files; the tree.json is the result of traversing all the files, and subdirectories within ./working-tree and generating sha1 for directories and files;
