@@ -4,7 +4,7 @@ This project is a NodeJS-based implementation of a very simple version control s
 
 The main objectives of the implementation:
 
-* To process a working-tree directory to come up with objects to be stored in a objects storage (filesystem). The objects storage will store all files or trees under a key that is calculated based in its contents. So, for files, the sha1 key is calculated based in file contents. For tree objects (sub-directories) and sha1 is calculated from the string of all the filenames plus all the sha1 of all its imediate sub-directories and/or files. This means that you can only calculate the sha1 for a subdirectory after you have calculated the sha1 for all its children.
+* To process a working-tree directory in order to come up with objects to be stored in a objects storage (filesystem). Such objects storage function will store all files, and trees, each with an unique key that is calculated based in its contents. For files, the sha1 key is calculated based in file contents (not file name). For tree objects, sub-directories, the sha1 is calculated from the string that sums the filenames plus all the sha1 for all its imediate sub-directories and/or files. This means that you can only calculate the sha1 for a subdirectory after you have calculated the sha1 of its children.
 
 * To process commits - which is an object associated with the main tree (working-tree) state, i.e. it links to the sha1 object of the main tree. The commit sha1 is calculated based in the string contents: date, sha1 of a tree. 
 
